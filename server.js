@@ -9,9 +9,7 @@ var app = express();
 //app.use(bodyParser.urlencoded({ extended: true }));
 
 // Mongo initialization, setting up a connection to a MongoDB  (on Heroku or localhost)
-var mongoUri = process.env.MONGOLAB_URI ||
-  process.env.MONGOHQ_URL ||
-  'https://fathomless-wildwood-2612.herokuapp.com/;'
+var mongoUri = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'https://fathomless-wildwood-2612.herokuapp.com/;'
 var mongo = require('mongodb');
 var db = mongo.Db.connect(mongoUri, function (error, databaseConnection) {
   db = databaseConnection;

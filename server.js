@@ -28,11 +28,11 @@ app.get('/', function (req, res, next) {
   res.set('Content-Type', 'text/html');
   var indexPage = ''
   db.collection('locations', function(er, collection) {
-    collection.find().toArray(function(err, cursor) {
+    collection.find().sort({'created_at': -1 }).toArray(function(err, cursor) {
       if (!err) {
         indexPage += "<!DOCTYPE HTML><html><head><title>List of All Check-ins</title></head><body><h1>Check-ins: </h1>";
         for (var i = 0; i < cursor.length; i++) {
-          indexPage += "<p>" + i + ".  "+ cursor[i].login + " checked-in @: " + "|| " + " latitude: "
+          indexPage += "<p>" + i + ".  "+ "<strong>" + cursor[i].login + "</strong>" + " checked-in @: " + "|| " + " latitude: "
                              + cursor[i].lat + " longitude: " + cursor[i].lng + "  || " + " (" +
                              cursor[i].created_at + ")</p>";
         }

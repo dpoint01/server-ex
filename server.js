@@ -23,6 +23,7 @@ app.all('*', function(req, res, next){
   next();
 });
 
+//-------------------------------------GET HOME-----------------------------------//
 app.get('/', function (req, res, next) {
   res.set('Content-Type', 'text/html');
   var indexPage = ''
@@ -31,7 +32,9 @@ app.get('/', function (req, res, next) {
       if (!err) {
         indexPage += "<!DOCTYPE HTML><html><head><title>List of All Check-ins</title></head><body><h1>Check-ins: </h1>";
         for (var i = 0; i < cursor.length; i++) {
-          indexPage += "<p>You fed me " + cursor[i].location + "!</p>";
+          indexPage += "<p>" + i + ".  "+ cursor[i].login + " checked-in @: " + "|| " + " latitude: "
+                             + cursor[i].lat + " longitude: " + cursor[i].lng + "  || " + " (" +
+                             cursor[i].created_at + ")</p>";
         }
         indexPage += "</body></html>"
         res.send(indexPage);
@@ -42,6 +45,7 @@ app.get('/', function (req, res, next) {
   });
 });
 
+//---------------------------------POST SENDLOCATION-----------------------------//
 app.post('/sendLocation', function(req, res, next) {
   var login = req.body.login;
   var lat = req.body.lat;

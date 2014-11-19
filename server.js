@@ -49,6 +49,7 @@ app.get('/', function (req, res) {
 
 //--------------------------------GET Locations.JSON-----------------------------//
 app.get('/locations.json', function (req, res) {
+  //Cross Domain Access
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "X-Requested-With");
 
@@ -77,6 +78,7 @@ app.get('/locations.json', function (req, res) {
 
 //---------------------------------POST SENDLOCATION-----------------------------//
 app.post('/sendLocation', function(req, res) {
+  //Cross Domain Access
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "X-Requested-With");
 
@@ -117,6 +119,7 @@ app.post('/sendLocation', function(req, res) {
 
 //---------------------------------------REDLINE JSON----------------------------------------//
 app.get('/redline.json', function(request, response) {
+  //Cross Domain Access
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "X-Requested-With");
 

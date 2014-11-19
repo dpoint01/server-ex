@@ -1,4 +1,4 @@
-// Initialization
+//-----------------------------------Initialization--------------------------------//
 var express = require('express');
 var bodyParser = require('body-parser');
 var validator = require('validator'); // See documentation at https://github.com/chriso/validator.js
@@ -9,7 +9,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Mongo initialization
-var mongoUri = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'mongodb://localhost/test';
+var mongoUri = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'mongodb://localhost/db';
 var mongo = require('mongodb');
 var db = mongo.Db.connect(mongoUri, function(error, databaseConnection) {
   db = databaseConnection;
@@ -36,7 +36,7 @@ app.get('/', function (req, res, next) {
                              + cursor[i].lat + " longitude: " + cursor[i].lng + "  || " + " (" +
                              cursor[i].created_at + ")</p>";
         }
-        indexPage += "</body></html>"
+        indexPage += "</body></html>";
         res.send(indexPage);
       } else {
         res.send('<!DOCTYPE HTML><html><head><title>List of All Check-ins</title></head><body><h1>Something went wrong...</h1></body></html>');
@@ -45,6 +45,21 @@ app.get('/', function (req, res, next) {
   });
 });
 
+//--------------------------------GET Locations.JSON-----------------------------//
+app.get('/locations.json', function (req, res, next) {
+  res.set('Content-Type', 'text/html');
+  var login = req.body.login;
+
+  if(login == undefined){
+    res.send("Undefined Parameters, something's off");
+  }
+  else {
+    var check_ins = db.locations.find({"login": login}).sort({'created_at': -1});
+    res.send(check_ins);
+    res.send(200);
+  }
+
+});
 //---------------------------------POST SENDLOCATION-----------------------------//
 app.post('/sendLocation', function(req, res, next) {
   var login = req.body.login;
@@ -78,6 +93,11 @@ app.post('/sendLocation', function(req, res, next) {
     });
   }
 });
+
+app.get('/redline.json', function(req, res, next) {
+
+});
+
 
 
 

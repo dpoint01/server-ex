@@ -97,7 +97,6 @@ app.post('/sendLocation', function(req, res) {
               res.send(500);
             }
             else {
-              students = db.locations.find();
               characters = [];
               res.send(JSON.stringify({"characters": characters, "students": cursor}));
               res.send(200);

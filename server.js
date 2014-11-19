@@ -112,12 +112,7 @@ app.post('/sendLocation', function(req, res) {
             }
             else {
               characters = [];
-              var hundred = [];
-
-              for(var i = cursor.length; i < curesor.length-100; i-- ){
-                hundred[cursor.length-i] = cursor[i];
-              }
-              res.send(JSON.stringify({"characters": characters, "students": hundred}));
+              res.send(JSON.stringify({"characters": characters, "students": cursor}));
             }
           });
         }

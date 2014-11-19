@@ -17,12 +17,13 @@ var db = mongo.Db.connect(mongoUri, function(error, databaseConnection) {
 });
 
 //Allow cross domain access
+/*
 app.all('*', function(req, res, next){
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Methods", "PUT, GET, POST");
   res.header("Access-Control-Allow-Headers", "X-Requested-With");
   next();
-});
+});*/
 
 //-------------------------------------GET HOME-----------------------------------//
 app.get('/', function (req, res) {
@@ -48,6 +49,9 @@ app.get('/', function (req, res) {
 
 //--------------------------------GET Locations.JSON-----------------------------//
 app.get('/locations.json', function (req, res) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+
   res.set('Content-Type', 'text/html');
   var login = req.query.login;
 
@@ -73,6 +77,9 @@ app.get('/locations.json', function (req, res) {
 
 //---------------------------------POST SENDLOCATION-----------------------------//
 app.post('/sendLocation', function(req, res) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+
   var login = req.body.login;
   var lat = req.body.lat;
   var lng = req.body.lng;
@@ -110,6 +117,9 @@ app.post('/sendLocation', function(req, res) {
 
 //---------------------------------------REDLINE JSON----------------------------------------//
 app.get('/redline.json', function(request, response) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+
   var data = '';
   http.get("http://developer.mbta.com/lib/rthr/red.json", function(apiresponse) {
     apiresponse.on('data', function(chunk) {

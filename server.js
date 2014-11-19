@@ -87,10 +87,13 @@ app.post('/sendLocation', function(req, res) {
   var lng = req.body.lng;
   var created_at = new Date();
 
+  var parsed_lat = parseFloat(lat);
+  var parsed_lng = parseFloat(lng);
+
   var toInsert = {
       "login": login,
-      "lat": lat,
-      "lng": lng,
+      "lat": parsed_lat,
+      "lng": parsed_lng,
       "created_at": created_at,
   };
 

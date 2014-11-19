@@ -34,7 +34,8 @@ app.get('/', function (req, res) {
       if (!err) {
         indexPage += "<!DOCTYPE HTML><html><head><title>List of All Check-ins</title></head><body><h1>Check-ins: </h1>";
         for (var i = 0; i < cursor.length; i++) {
-          indexPage += "<p>" + i + ".  "+ "<strong>" + cursor[i].login + "</strong>" + " checked-in @: " + "|| " + " latitude: "
+          var num = i+1;
+          indexPage += "<p>" + num + ".  "+ "<strong>" + cursor[i].login + "</strong>" + " checked-in @: " + "|| " + " latitude: "
                              + cursor[i].lat + " longitude: " + cursor[i].lng + "  || " + " (" +
                              cursor[i].created_at + ")</p>";
         }

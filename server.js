@@ -120,8 +120,8 @@ app.post('/sendLocation', function(req, res) {
 //---------------------------------------REDLINE JSON----------------------------------------//
 app.get('/redline.json', function(request, response) {
   //Cross Domain Access
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  response.header("Access-Control-Allow-Origin", "*");
+  response.header("Access-Control-Allow-Headers", "X-Requested-With");
 
   var data = '';
   http.get("http://developer.mbta.com/lib/rthr/red.json", function(apiresponse) {

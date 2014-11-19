@@ -88,6 +88,7 @@ app.post('/sendLocation', function(req, res) {
   var lng = req.body.lng;
   var created_at = new Date();
 
+  //change string to float lat/lng
   var parsed_lat = parseFloat(lat);
   var parsed_lng = parseFloat(lng);
 
@@ -111,7 +112,12 @@ app.post('/sendLocation', function(req, res) {
             }
             else {
               characters = [];
-              res.send(JSON.stringify({"characters": characters, "students": cursor}));
+              var hundred = [];
+
+              for(var i = cursor.length; i < curesor.length-100; i-- ){
+                hundred[cursor.length-i] = cursor[i];
+              }
+              res.send(JSON.stringify({"characters": characters, "students": hundred}));
             }
           });
         }
@@ -135,8 +141,8 @@ app.get('/redline.json', function(request, response) {
       response.send(data);
     });
   }).on('error', function(error) {
-    response.send(500);
-  });
+      response.send(500);
+    });
 });
 
 

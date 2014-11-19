@@ -1,4 +1,5 @@
 //-----------------------------------Initialization--------------------------------//
+var http = require('http');
 var express = require('express');
 var bodyParser = require('body-parser');
 var validator = require('validator'); // See documentation at https://github.com/chriso/validator.js
@@ -9,7 +10,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Mongo initialization
-var mongoUri = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'mongodb://localhost/db';
+var mongoUri = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'mongodb://localhost/test';
 var mongo = require('mongodb');
 var db = mongo.Db.connect(mongoUri, function(error, databaseConnection) {
   db = databaseConnection;
@@ -24,7 +25,7 @@ app.all('*', function(req, res, next){
 });
 
 //-------------------------------------GET HOME-----------------------------------//
-app.get('/', function (req, res, next) {
+app.get('/', function (req, res) {
   res.set('Content-Type', 'text/html');
   var indexPage = ''
   db.collection('locations', function(er, collection) {
@@ -46,7 +47,7 @@ app.get('/', function (req, res, next) {
 });
 
 //--------------------------------GET Locations.JSON-----------------------------//
-app.get('/locations.json', function (req, res, next) {
+app.get('/locations.json', function (req, res) {
   res.set('Content-Type', 'text/html');
   var login = req.body.login;
 
@@ -60,8 +61,9 @@ app.get('/locations.json', function (req, res, next) {
   }
 
 });
+
 //---------------------------------POST SENDLOCATION-----------------------------//
-app.post('/sendLocation', function(req, res, next) {
+app.post('/sendLocation', function(req, res) {
   var login = req.body.login;
   var lat = req.body.lat;
   var lng = req.body.lng;
@@ -94,10 +96,20 @@ app.post('/sendLocation', function(req, res, next) {
   }
 });
 
-app.get('/redline.json', function(req, res, next) {
-
+//---------------------------------------REDLINE JSON----------------------------------------//
+app.get('/redline.json', function(request, response) {
+  var data = '';
+  http.get("http://developer.mbta.com/lib/rthr/red.json", function(apiresponse) {
+    apiresponse.on('data', function(chunk) {
+      data += chunk;
+    });
+    apiresponse.on('end', function() {
+      response.send(data);
+    });
+  }).on('error', function(error) {
+    response.send(500);
+  });
 });
-
 
 
 

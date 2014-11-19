@@ -112,7 +112,14 @@ app.post('/sendLocation', function(req, res) {
             }
             else {
               characters = [];
-              res.send(JSON.stringify({"characters": characters, "students": cursor}));
+              collection.find().sort({'created_at': -1 }).limit(100).toArray(function(err, cursor){
+                if(!err) {
+                 res.send(JSON.stringify({"characters": characters, "students": cursor}));
+                }
+                else {
+                  res.send(500);
+                }
+              });
             }
           });
         }

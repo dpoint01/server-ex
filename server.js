@@ -49,15 +49,24 @@ app.get('/', function (req, res) {
 //--------------------------------GET Locations.JSON-----------------------------//
 app.get('/locations.json', function (req, res) {
   res.set('Content-Type', 'text/html');
-  var login = req.body.login;
+  var login = req.query.login;
 
   if(login == undefined){
-    res.send("Undefined Parameters, something's off");
+    res.send("[] (empty list)");
   }
   else {
-    var check_ins = db.locations.find({"login": login}).sort({'created_at': -1});
-    res.send(check_ins);
-    res.send(200);
+    db.collection('locations', function(er, collection) {
+      collection.find({"login": login}).sort({'created_at': -1 }).toArray(function(err, cursor) {
+        if (!err) {
+          string = JSON.stringify(cursor);
+          res.send(string);
+        }
+        else {
+          res.send("did not connect to db");
+          res.send(500);
+        }
+      });
+    });
   }
 
 });

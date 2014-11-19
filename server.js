@@ -112,7 +112,6 @@ app.post('/sendLocation', function(req, res) {
             else {
               characters = [];
               res.send(JSON.stringify({"characters": characters, "students": cursor}));
-              res.send(200);
             }
           });
         }

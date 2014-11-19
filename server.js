@@ -90,17 +90,21 @@ app.post('/sendLocation', function(req, res) {
   }
   else {
     db.collection('locations', function(er, collection) {
-      var id = collection.insert(toInsert, function(err, saved) {
-        if (err) {
-          res.send(500);
+      collection.find().toArray(function(err, cursor) {
+        if(!err){
+          var id = collection.insert(toInsert, function(err, saved) {
+            if (err) {
+              res.send(500);
+            }
+            else {
+              students = db.locations.find();
+              characters = [];
+              res.send(JSON.stringify({"characters": characters, "students": cursor}));
+              res.send(200);
+            }
+          });
         }
-        else {
-          students = db.locations.find();
-          characters = [];
-          res.send(JSON.stringify(characters, students));
-          res.send(200);
-        }
-        });
+      });
     });
   }
 });
